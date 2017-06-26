@@ -32,15 +32,21 @@ class Application
 
     if req.path.match(/add/)
       search_term = req.params["item"]
-      if @@items.include?(search_term)
-        @@cart << search_term
-        resp.write "added #{search_term}"
-      else
-        resp.write "We don't have that item"
-      end
+      resp.write add_to_cart(search_term)
+    else
+      resp.write "Path Not Found"
     end
 
     resp.finish
+  end
+
+  def add_to_cart(search_term)
+    if @@items.include?(search_term)
+      @@cart << search_term
+      return "added #{search_term}"
+    else
+      return "We don't have that item"
+    end
   end
 
   def handle_search(search_term)
